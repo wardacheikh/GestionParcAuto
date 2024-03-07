@@ -1,4 +1,5 @@
 package com.GestionAuto.Trip.Services;
+import com.GestionAuto.Trip.Exceptions.TripExceptions;
 import com.GestionAuto.Trip.models.Trip;
 import com.GestionAuto.Trip.models.VehiculeType;
 import com.GestionAuto.Trip.repository.TripRepository;
@@ -18,10 +19,12 @@ public class TripServiceImpl implements TripService{
 @Autowired
     private TripRepository tripRepository ;
     @Override
-    public void AddTrip(Trip trip) {
+    public void AddTrip(Trip trip) throws TripExceptions {
         Optional<Trip> tripOptional = tripRepository.findById(trip.getId());
-        if (tripOptional.isPresent()){
-            throw new IllegalStateException("Trip exist deja");}
+        if (tripOptional.isPresent())
+        {
+            throw new TripExceptions("Trip existe déjà");
+        }
         else{
           if( trip.getDepartureDate().isBefore(trip.getArrivalDate()))
               tripRepository.save(trip);
@@ -30,7 +33,7 @@ public class TripServiceImpl implements TripService{
               tripRepository.save(trip);
           }
           else {
-              throw new IllegalStateException("Departure date must be before arrival one ");
+              throw new TripExceptions("La date de départ doit être avant la date d'arrivée");
           }
         }
 
@@ -42,18 +45,18 @@ public class TripServiceImpl implements TripService{
     }
 
     @Override
-    public void deleteTrip(Long id) {
+     public void deleteTrip(Long id) throws TripExceptions {
      boolean exists= tripRepository.existsById(id);
      if(exists){
          tripRepository.deleteById(id);
      }
-        throw new IllegalStateException("this trip does not exists ");
+        throw new TripExceptions("La date de départ doit être avant la date d'arrivée");
 
     }
 
     @Override
     public void updateTrip(Long id ,String depanature , String destination , LocalDate departureDate, LocalTime departureTime,
-    LocalDate arrivalDate , LocalTime arrivalTime , int numberofpassangers) {
+    LocalDate arrivalDate , LocalTime arrivalTime , int numberofpassangers) throws TripExceptions {
 
 
         Trip trip = tripRepository.findById(id).orElseThrow(() -> new IllegalStateException("id n'existe pas "));
@@ -68,22 +71,26 @@ public class TripServiceImpl implements TripService{
         if (numberofpassangers !=0  && !Objects.equals(trip.getNumberOfPassangers(), numberofpassangers)) {
             trip.setNumberOfPassangers(numberofpassangers);
         }
-        if (departureDate != null  && !Objects.equals(trip.getDepartureDate(), departureDate)) {
-            trip.setDepartureDate(departureDate);
-        }
-        if (departureTime != null  && !Objects.equals(trip.getDepartureTime(), departureTime)) {
-            trip.setDepartureTime(departureTime);
-        }
-        if (arrivalDate != null  && !Objects.equals(trip.getArrivalDate(), arrivalDate)) {
-            trip.setArrivalDate(arrivalDate);
-        }
-        if (arrivalTime != null  && !Objects.equals(trip.getDepartureDate(), arrivalTime)) {
-            trip.setArrivalTime(arrivalTime);
+
+        if (departureDate.isBefore(arrivalDate)|| departureTime.isBefore(arrivalTime)) {
+
+            if (departureDate != null && !Objects.equals(trip.getDepartureDate(), departureDate)) {
+                trip.setDepartureDate(departureDate);
+            }
+            if (departureTime != null && !Objects.equals(trip.getDepartureTime(), departureTime)) {
+                trip.setDepartureTime(departureTime);
+            }
+            if (arrivalDate != null && !Objects.equals(trip.getArrivalDate(), arrivalDate)) {
+                trip.setArrivalDate(arrivalDate);
+            }
+            if (arrivalTime != null && !Objects.equals(trip.getDepartureDate(), arrivalTime)) {
+                trip.setArrivalTime(arrivalTime);
+            }
         }
 
-
+        else {
+            throw new TripExceptions("La date de départ doit être avant la date d'arrivée");
+        }
     }
-
-
     }
 

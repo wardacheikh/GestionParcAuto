@@ -1,4 +1,5 @@
 package com.GestionAuto.Trip.Controllers;
+import com.GestionAuto.Trip.Exceptions.TripExceptions;
 import com.GestionAuto.Trip.Services.TripService;
 import com.GestionAuto.Trip.models.Trip;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class TripController {
 }
 
 @PostMapping(path = "/addTrip")
-public String addTrip(@RequestBody Trip trip  ){
+public String addTrip(@RequestBody Trip trip  ) throws TripExceptions {
     tripService.AddTrip(trip);
     return "trip added with success";
 }
@@ -29,14 +30,15 @@ public String addTrip(@RequestBody Trip trip  ){
                            LocalDate departureDate, LocalTime departureTime,
                            @RequestParam(required = false)  LocalDate arrivalDate ,
                            @RequestParam(required = false) LocalTime arrivalTime ,
-                           @RequestParam(required = false) int numberofpassangers){
-    tripService.updateTrip(TripId,depanature,destination,departureDate,
+                           @RequestParam(required = false) int numberofpassangers) throws TripExceptions {
+
+            tripService.updateTrip(TripId,depanature,destination,departureDate,
             departureTime,arrivalDate,arrivalTime,numberofpassangers);
     return "Trip Updates succesfully";
                            }
 
  @DeleteMapping(path = "{TripId}")
- public String deleteTrip(@PathVariable("{TripId}") Long TripId)  {
+ public String deleteTrip(@PathVariable("{TripId}") Long TripId) throws TripExceptions {
     tripService.deleteTrip(TripId);
     return"Trip deleted succesfully";
  }
