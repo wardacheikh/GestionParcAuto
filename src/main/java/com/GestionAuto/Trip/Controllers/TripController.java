@@ -19,9 +19,8 @@ public class TripController {
 }
 
 @PostMapping(path = "/addTrip")
-public String addTrip(@RequestBody Trip trip  ) throws TripExceptions {
-    tripService.AddTrip(trip);
-    return "trip added with success";
+public Trip addTrip(@RequestBody Trip trip  ) throws TripExceptions {
+    return tripService.AddTrip(trip);
 }
 @PutMapping(path = "{TripId}")
     public String updateTrip(@PathVariable("{TripId}") Long TripId ,

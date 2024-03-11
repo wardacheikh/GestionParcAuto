@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface TripService {
-    public void AddTrip(Trip trip ) throws TripExceptions;
+    public Trip AddTrip(Trip trip ) throws TripExceptions;
     public List<Trip>getAllTrip();
     public void deleteTrip(Long id) throws TripExceptions;
     public  void updateTrip(Long id ,String depanature , String destination , LocalDate departureDate, LocalTime departureTime ,

@@ -12,17 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 @Setter
 public class Driver {
     @Id
+    private Long id ;
     private String matricule ;
-
     private String nom ;
     private String prenom ;
-
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @Column(nullable = true)
     private List<Permis> permis = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "driver")
     private List<Trip>trips=new ArrayList<>();
 }

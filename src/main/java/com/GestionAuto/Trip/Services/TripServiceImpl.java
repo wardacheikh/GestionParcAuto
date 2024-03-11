@@ -1,12 +1,10 @@
 package com.GestionAuto.Trip.Services;
 import com.GestionAuto.Trip.Exceptions.TripExceptions;
 import com.GestionAuto.Trip.models.Trip;
-import com.GestionAuto.Trip.models.VehiculeType;
 import com.GestionAuto.Trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.midi.InvalidMidiDataException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -19,7 +17,7 @@ public class TripServiceImpl implements TripService{
 @Autowired
     private TripRepository tripRepository ;
     @Override
-    public void AddTrip(Trip trip) throws TripExceptions {
+    public Trip AddTrip(Trip trip) throws TripExceptions {
         Optional<Trip> tripOptional = tripRepository.findById(trip.getId());
         if (tripOptional.isPresent())
         {
@@ -27,16 +25,15 @@ public class TripServiceImpl implements TripService{
         }
         else{
           if( trip.getDepartureDate().isBefore(trip.getArrivalDate()))
-              tripRepository.save(trip);
+              return tripRepository.save(trip);
           if(trip.getDepartureDate().isEqual(trip.getArrivalDate())
                   &&(trip.getDepartureTime().isBefore(trip.getArrivalTime()))) {
-              tripRepository.save(trip);
+              return tripRepository.save(trip);
           }
           else {
               throw new TripExceptions("La date de départ doit être avant la date d'arrivée");
           }
         }
-
     }
 
     @Override

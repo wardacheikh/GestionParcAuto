@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,7 +30,7 @@ public class Trip {
     private LocalDate arrivalDate ;
     @Column(nullable = false)
     private LocalTime arrivalTime;
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private int numberOfPassangers ;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
