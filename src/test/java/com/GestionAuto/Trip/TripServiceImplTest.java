@@ -39,10 +39,8 @@ public class TripServiceImplTest {
         Trip addedTrip = tripService.AddTrip(tripsucess);
         assertNotNull(addedTrip);
     }
-
-
     @Test
-  @DisplayName("Test d'ajout de voyage avec date de départ invalide")
+    @DisplayName("Test d'ajout de voyage avec date de départ invalide")
    public void testAddTripInvalidDepartureDate() {
         Trip trip = new Trip();
         trip.setId(1L);

@@ -2,6 +2,7 @@ package com.GestionAuto.Trip.Exceptions;
 
 public class TripExceptions extends Exception {
     public TripExceptions(String message) {
+
         super(message);
     }
     public void TimeException() {

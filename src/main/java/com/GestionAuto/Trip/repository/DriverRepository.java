@@ -15,6 +15,8 @@ public interface DriverRepository extends JpaRepository<Driver,Long> {
     List<Driver> findAvailableDrivers (@Param("departureDate") LocalDate departureDate,
              @Param("arrivalDate") LocalDate arrivalDate);
 
+
+
     @Query("SELECT d FROM Driver d WHERE d.id IN " +
             "(SELECT t.driver.id FROM Trip t WHERE t.driver.id = d.id)")
     List<Driver> findDriversWithTrips();
