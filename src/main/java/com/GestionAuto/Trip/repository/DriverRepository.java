@@ -13,7 +13,7 @@ public interface DriverRepository extends JpaRepository<Driver,Long> {
             "(SELECT t.driver.id FROM Trip t WHERE t.arrivalDate" +
             " BETWEEN :departureDate AND :arrivalDate)")
     List<Driver> findAvailableDrivers (@Param("departureDate") LocalDate departureDate,
-             @Param("arrivalDate") LocalDate arrivalDate);
+             @Paramj("arrivalDate") LocalDate arrivalDate);
 
 
 
